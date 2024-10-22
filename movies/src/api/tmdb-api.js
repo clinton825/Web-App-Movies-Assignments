@@ -68,6 +68,13 @@ export const getMovie = (args) => {
 
   };
 
+// tmdb-api.js
+export const getUpcomingMovies = async () => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/upcoming?api_key=e70bd330f43db53e94cb17f1f3daf455`
+  ).then((res) => res.json());
+};
+
    export const getMovieReviews = ({ queryKey }) => {
     const [, idPart] = queryKey;
     const { id } = idPart;
@@ -84,7 +91,10 @@ export const getMovie = (args) => {
     .catch((error) => {
       throw error
    });
+
+   
   };
+
    
 
   
