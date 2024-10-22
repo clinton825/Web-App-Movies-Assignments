@@ -4,6 +4,7 @@ import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites';
+import AddToWatchlistIcon from '../components/cardIcons/addToWatchlist'; // Import the new icon
 
 const UpcomingMoviesPage = (props) => {
   // Use the new API call 'getUpcomingMovies'
@@ -19,18 +20,17 @@ const UpcomingMoviesPage = (props) => {
 
   const movies = data.results;
 
-
-  const favorites = movies.filter((m) => m.favorite);
-  localStorage.setItem('favorites', JSON.stringify(favorites));
-
-  const addToFavorites = (movieId) => true;
-
   return (
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
       action={(movie) => {
-        return <AddToFavoritesIcon movie={movie} />;
+        return (
+          <>
+            <AddToFavoritesIcon movie={movie} />  {/* Favorite icon */}
+            <AddToWatchlistIcon movie={movie} />  {/* New Watchlist icon */}
+          </>
+        );
       }}
     />
   );
