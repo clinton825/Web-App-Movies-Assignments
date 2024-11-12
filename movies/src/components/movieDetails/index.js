@@ -9,7 +9,10 @@ import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews"
-
+import { getRecommendations } from "../../api/tmdb-api";
+import { useQuery } from 'react-query';
+import Spinner from '../spinner';
+import { Link } from "react-router-dom";
 
 const root = {
     display: "flex",
@@ -23,6 +26,21 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {  // Don't miss this!
     const [drawerOpen, setDrawerOpen] = useState(false);
+    
+      const { data, error, isLoading, isError } = useQuery(['recommendations',  {id: movie.id }],  getRecommendations );
+     
+    
+      if (isLoading) {
+        return <Spinner />;
+      }
+    
+      if (isError) {
+        return <h1>{error.message}</h1>;
+      }
+    
+      // Use optional chaining to safely access `data.results`
+      const movies = data?.results || [];
+    console.log(movies)
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -71,7 +89,15 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         ))}
 
       </Paper>
-      
+      <Paper component="ul" sx={{ ...root }}>
+          {movies.map((recMovie) => (
+            <li key={recMovie.id}>
+              <Link to={`/movies/${recMovie.id}`}>
+              <Chip label={recMovie.title} sx={{ ...chip }} />
+              </Link>
+            </li>
+          ))}
+        </Paper>
       <Fab
         color="secondary"
         variant="extended"
@@ -88,7 +114,10 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <MovieReviews movie={movie} />
       </Drawer>
+      
       </>
   );
+
+
 };
 export default MovieDetails ;
