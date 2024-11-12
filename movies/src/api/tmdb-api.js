@@ -68,7 +68,24 @@ export const getMovie = (args) => {
 
   };
 
-// tmdb-api.js
+  export const getTrendingMovies =  () => {
+    return fetch(
+      `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_TMDB_KEY}`
+    )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
+  
+
+
+
 export const getUpcomingMovies = async () => {
   return fetch(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=e70bd330f43db53e94cb17f1f3daf455`
