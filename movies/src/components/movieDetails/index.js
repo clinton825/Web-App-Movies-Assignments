@@ -89,6 +89,9 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         ))}
 
       </Paper>
+      <Typography variant="h6" component="h3" sx={{ marginTop: 2 }}>
+    Recommended Movies
+</Typography>
       <Paper component="ul" sx={{ ...root }}>
           {movies.map((recMovie) => (
             <li key={recMovie.id}>
