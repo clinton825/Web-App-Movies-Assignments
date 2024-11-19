@@ -10,7 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import Grid from "@mui/material/Grid";
 import img from '../../images/film-poster-placeholder.png'
-import { Link } from "react-router-dom";
+
 import Avatar from '@mui/material/Avatar';
 
 
@@ -51,11 +51,7 @@ export default function PeopleCard({ person, action }) {
       </CardContent>
       <CardActions disableSpacing>
         {action(person)}
-        <Link to={`/people/${person.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
+        
       </CardActions>
     </Card>
   );

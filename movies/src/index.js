@@ -47,7 +47,7 @@ const App = () => {
             <Route path="/movies/trending" element={<TrendingMoviesPage />} />
             <Route path="/movies/latest" element={<LatestMoviesPage />} />
             <Route path="/movies/popular" element={<PopularMoviesPage />} />
-            <Route path="/actors" element={<ActorsPage />} />
+            <Route path="/people" element={<ActorsPage />} />
             <Route path="/actors/:id" element={<ActorDetailsPage />} />
           </Routes>
         </MoviesContextProvider>

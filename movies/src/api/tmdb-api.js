@@ -147,7 +147,7 @@ export const getMovie = (args) => {
     const [, idPart] = args.queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/trending/person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
+      `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
@@ -158,7 +158,6 @@ export const getMovie = (args) => {
       throw error
   });
   };
-
 
 export const getPopularPeople = () => {
     return fetch(
@@ -216,9 +215,17 @@ export const getUpcomingMovies = async () => {
       throw error
    });
 
+
+   
    
   };
 
-   
+  export const getPersonWithCredits = async ({ queryKey }) => {
+    const [_key, { id }] = queryKey;
+    const response = await fetch(`https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}&append_to_response=combined_credits`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  };
+  
 
   

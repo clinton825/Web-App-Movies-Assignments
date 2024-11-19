@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
@@ -8,107 +11,114 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from "../movieReviews"
+import MovieReviews from "../movieReviews";
 import { getRecommendations } from "../../api/tmdb-api";
-import { useQuery } from 'react-query';
-import Spinner from '../spinner';
+import { useQuery } from "react-query";
+import Spinner from "../spinner";
 import { Link } from "react-router-dom";
 
-const root = {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    listStyle: "none",
-    padding: 1.5,
-    margin: 0,
-};
-const chip = { margin: 0.5 };
+const chipStyle = { margin: 0.5 };
 
-const MovieDetails = ({ movie }) => {  // Don't miss this!
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    
-      const { data, error, isLoading, isError } = useQuery(['recommendations',  {id: movie.id }],  getRecommendations );
-     
-    
-      if (isLoading) {
-        return <Spinner />;
-      }
-    
-      if (isError) {
-        return <h1>{error.message}</h1>;
-      }
-    
-      // Use optional chaining to safely access `data.results`
-      const movies = data?.results || [];
-    console.log(movies)
+const MovieDetails = ({ movie }) => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { data, error, isLoading, isError } = useQuery(
+    ["recommendations", { id: movie.id }],
+    getRecommendations
+  );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <Typography variant="h6" color="error">
+      Error fetching recommendations: {error.message}
+    </Typography>;
+  }
+
+  const recommendedMovies = data?.results || [];
+
   return (
     <>
+      {/* Overview Section */}
       <Typography variant="h5" component="h3">
         Overview
       </Typography>
-
       <Typography variant="h6" component="p">
         {movie.overview}
       </Typography>
 
-      <Paper 
-        component="ul" 
-        sx={{...root}}
-      >
+      {/* Genres */}
+      <Paper component="ul" sx={{ display: "flex", flexWrap: "wrap", listStyle: "none", padding: 1.5, margin: 0 }}>
         <li>
-          <Chip label="Genres" sx={{...chip}} color="primary" />
+          <Chip label="Genres" sx={chipStyle} color="primary" />
         </li>
         {movie.genres.map((g) => (
           <li key={g.name}>
-            <Chip label={g.name} sx={{...chip}} />
+            <Chip label={g.name} sx={chipStyle} />
           </li>
         ))}
       </Paper>
-      <Paper component="ul" sx={{...root}}>
+
+      {/* Movie Details */}
+      <Paper component="ul" sx={{ display: "flex", flexWrap: "wrap", listStyle: "none", padding: 1.5, margin: 0 }}>
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-        <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
-        />
-        <Chip
-          icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
-        />
+        <Chip icon={<MonetizationIcon />} label={`${movie.revenue.toLocaleString()}`} />
+        <Chip icon={<StarRate />} label={`${movie.vote_average} (${movie.vote_count})`} />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
-      
-      <Paper component="ul" sx={{...root}}>
+
+      {/* Production Countries */}
+      <Paper component="ul" sx={{ display: "flex", flexWrap: "wrap", listStyle: "none", padding: 1.5, margin: 0 }}>
         <li>
-            <Chip label="Production" sx={{...chip}} color="primary"/>
+          <Chip label="Production" sx={chipStyle} color="primary" />
         </li>
         {movie.production_countries.map((country) => (
-            <li key={country.name}>
-                <Chip label={country.name} sx={{...chip}} />
-
-            </li>
+          <li key={country.name}>
+            <Chip label={country.name} sx={chipStyle} />
+          </li>
         ))}
-
       </Paper>
-      <Typography variant="h6" component="h3" sx={{ marginTop: 2 }}>
-    Recommended Movies
-</Typography>
-      <Paper component="ul" sx={{ ...root }}>
-          {movies.map((recMovie) => (
-            <li key={recMovie.id}>
-              <Link to={`/movies/${recMovie.id}`}>
-              <Chip label={recMovie.title} sx={{ ...chip }} />
-              </Link>
-            </li>
-          ))}
-        </Paper>
+
+      {/* Recommended Movies in a Card */}
+      <Card sx={{ marginTop: 4 }}>
+        <CardHeader title="Recommended Movies" />
+        <CardContent>
+          <Paper
+            component="ul"
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              listStyle: "none",
+              padding: 1.5,
+              gap: 1,
+            }}
+          >
+            {recommendedMovies.length > 0 ? (
+              recommendedMovies.map((recMovie) => (
+                <li key={recMovie.id} style={{ listStyle: "none" }}>
+                  <Link to={`/movies/${recMovie.id}`} style={{ textDecoration: "none" }}>
+                    <Chip label={recMovie.title} clickable sx={chipStyle} />
+                  </Link>
+                </li>
+              ))
+            ) : (
+              <Typography variant="body1">No recommendations available.</Typography>
+            )}
+          </Paper>
+        </CardContent>
+      </Card>
+
+      {/* Reviews Drawer */}
       <Fab
         color="secondary"
         variant="extended"
-        onClick={() =>setDrawerOpen(true)}
+        onClick={() => setDrawerOpen(true)}
         sx={{
-          position: 'fixed',
-          bottom: '1em',
-          right: '1em'
+          position: "fixed",
+          bottom: "1em",
+          right: "1em",
         }}
       >
         <NavigationIcon />
@@ -117,10 +127,8 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <MovieReviews movie={movie} />
       </Drawer>
-      
-      </>
+    </>
   );
-
-
 };
-export default MovieDetails ;
+
+export default MovieDetails;

@@ -1,43 +1,14 @@
 import React from "react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import HomeIcon from "@mui/icons-material/Home";
-import { useNavigate } from "react-router-dom";
+import Person from "../peopleCard"
+import Grid from "@mui/material/Grid";
 
-const PersonHeader = (props) => {
-  const person = props.person;
-  const navigate = useNavigate();
-
-  return (
-    <Paper 
-        component="div" 
-        sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            flexWrap: "wrap",
-            padding: 1.5,
-            margin: 0,
-        }}
-      >
-      <IconButton aria-label="go back" onClick={() => navigate(-1)} >
-        <ArrowBackIcon color="primary" fontSize="large" />
-      </IconButton>
-
-      <Typography variant="h4" component="h3">
-        {person.name}
-        <a href={person.homepage}>
-          <HomeIcon color="primary" />
-        </a>
-      </Typography>
-
-      <IconButton aria-label="go forward" onClick={() => navigate(+1) } >
-        <ArrowForwardIcon color="primary" fontSize="large" />
-      </IconButton>
-    </Paper>
-  );
+const PeopleList = ( {people, action }) => {
+  let peopleCards = people.map((p) => (
+    <Grid key={p.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
+      <Person key={p.id} person={p} action={action} />
+    </Grid>
+  ));
+  return peopleCards;
 };
 
-export default PersonHeader;
+export default PeopleList;
