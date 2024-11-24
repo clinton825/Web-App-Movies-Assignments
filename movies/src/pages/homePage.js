@@ -4,10 +4,11 @@ import { getMovies } from "../api/tmdb-api";
 import PageTemplate from "../components/templateMovieListPage";
 import Spinner from "../components/spinner";
 import AddToFavoritesIcon from "../components/cardIcons/addToFavorites";
-import Pagination from "@mui/material/Pagination";
+import {Pagination} from "@mui/material";
 
 const HomePage = () => {
   const [page, setPage] = useState(1); // State to manage pagination
+
 
   const { data, error, isLoading, isError } = useQuery(
     ['discover', page],
@@ -35,10 +36,11 @@ const HomePage = () => {
   return (
     <>
       <PageTemplate
-        title="Discover Movies"
-        movies={movies}
-        action={(movie) => <AddToFavoritesIcon movie={movie} />}
-      />
+  title="Discover Movies"
+  movies={movies}
+  action={(movie) => <AddToFavoritesIcon movie={movie} />}
+/>
+
       {/* Pagination component */}
       <Pagination
         count={totalPages}

@@ -1,18 +1,20 @@
-export const getMovies = (page = 1)  => {
+export const getMovies = (page = 1, genre = "", sort = "popularity.desc") => {
+  const genreParam = genre ? `&with_genres=${genre}` : "";
+  const sortParam = `&sort_by=${sort}`;
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok) {
-      return response.json().then((error) => {
-        throw new Error(error.status_message || "Something went wrong");
-      });
-    }
-    return response.json();
-  })
-  .catch((error) => {
-      throw error
-  });
+    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=${page}${genreParam}${sortParam}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
+
 export const getMovie = (args) => {
   //console.log(args)
   const [, idPart] = args.queryKey;
@@ -31,6 +33,7 @@ export const getMovie = (args) => {
     throw error
  });
 };
+
   export const getGenres = () => {
     return fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
@@ -228,4 +231,17 @@ export const getUpcomingMovies = async (page = 1) => {
   };
   
 
-  
+  export const searchMovies = async (searchTerm) => {
+    return fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&query=${searchTerm}&page=1&include_adult=false`
+    ).then( (response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
+

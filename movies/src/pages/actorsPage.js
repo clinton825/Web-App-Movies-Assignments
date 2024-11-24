@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { getPopularPeople } from "../api/tmdb-api";
-import PeopleListPageTemplate from "../components/templatePeopleListPage.js";
 
 const ActorsPage = () => {
   const navigate = useNavigate();

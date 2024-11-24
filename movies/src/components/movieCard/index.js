@@ -1,3 +1,5 @@
+import React, { useContext } from "react";
+import { MoviesContext } from "../../contexts/moviesContext";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,15 +13,13 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import React, { useContext } from "react";
-import { MoviesContext } from "../../contexts/moviesContext";
 import img from "../../images/film-poster-placeholder.png";
 
-export default function MovieCard({ movie, action = () => null }) {
-  const { favorites } = useContext(MoviesContext);
+export default function MovieCard({ movie }) {
+  const { favorites, addToFavorites, removeFromFavorites } =
+    useContext(MoviesContext);
 
   const isFavorite = favorites.includes(movie.id);
-
 
   return (
     <Card>
@@ -62,7 +62,16 @@ export default function MovieCard({ movie, action = () => null }) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
+        <Button
+          variant="outlined"
+          size="medium"
+          color={isFavorite ? "secondary" : "primary"}
+          onClick={() =>
+            isFavorite ? removeFromFavorites(movie) : addToFavorites(movie)
+          }
+        >
+          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        </Button>
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
