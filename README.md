@@ -23,9 +23,8 @@ This ReactJS application provides a feature-rich movie database where users can 
 5. **Movie Details**: Offers in-depth details about a selected movie, including cast, reviews, and personalized recommendations.  
 6. **Favorites**: Allows users to save and view their favorite movies.  
 7. **Search Movies**: Enables users to search for specific movies by title using a dynamic search bar.  
-8. **Sort Movies**: Provides options to sort movies by popularity, release date, or rating.  
-9. **Filter Movies**: Lets users filter movies by genre to refine their browsing experience.  
-
+8. **Filter Movies**: Lets users filter movies by genre to refine their browsing experience.  
+9. **Home Page "Add to Favorites"**: On the home page, users can add movies to their favorites with a single click. Favorites are stored locally using browser storage, ensuring they persist even after the app is rebuilt or refreshed
 ### 🧑‍🎤 People Features  
 10. **Popular People**: Features well-known actors, directors, and other personalities in the industry.  
 11. **Actor Details**: Provides detailed profiles of actors, directors, and other personalities, including biographies and images.  
@@ -82,12 +81,6 @@ The app fetches real-time data from various API endpoints:
 - **Search Movies**:  
   Users can dynamically search for movies by typing in a search bar. The app fetches results in real time from the TMDB API's search endpoint.  
 
-- **Sort Movies**:  
-  Movies can be sorted based on various parameters, such as:
-  - Popularity (default)
-  - Release date
-  - Rating  
-
 - **Filter Movies by Genre**:  
   Users can refine their search by selecting specific genres from a dropdown menu. This feature uses the genre API to ensure the latest options.
 
@@ -111,7 +104,7 @@ Before running tests or launching the app, make sure the following tools are ins
 
 ## 📚 Independent Learning  
 
-While building the app, I incorporated **pagination**, **search**, **sorting**, and **filtering** features. These were implemented after researching online resources and tutorials, which guided me through the process.  
+While building the app, I incorporated **pagination**, **search** and **filtering** features. These were implemented after researching online resources and tutorials, which guided me through the process.  
 
 ---
 
