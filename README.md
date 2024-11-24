@@ -1,4 +1,4 @@
-To add details about the search, sort, filter functionalities, and the recommendations feature to your README, you can expand the **Features**, **API Endpoints**, and potentially other relevant sections. Here's an updated structure including these features:
+
 
 ---
 
